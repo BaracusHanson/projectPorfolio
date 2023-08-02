@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
-    motDePasse: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -58,10 +58,10 @@ const LoginForm = () => {
               Mot de passe :
             </label>
             <input
-              type="motDePasse"
-              id="motDePasse"
-              name="motDePasse"
-              value={formData.motDePasse}
+              type="password"
+              id="password"
+              name="password"
+              value={formData.password}
               onChange={handleChange}
               className="w-full px-4 py-2 bg-white border rounded-lg focus:outline-none focus:ring focus:border-blue-500"
               placeholder="Mot de passe"

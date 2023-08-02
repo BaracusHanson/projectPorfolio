@@ -13,7 +13,7 @@ const Dashboard = () => {
     axios
       .get("http://localhost:3000/dashboard", { withCredentials: true })
       .then((res) => {
-        if (res.data.Status === "Success") {
+        if (res.data.Status === 200) {
           setAuth(true);
           setName(res.data.name);
         } else {

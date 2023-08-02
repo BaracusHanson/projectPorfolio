@@ -4,9 +4,9 @@ import axios from "axios";
 
 const MyForm = () => {
   const [formData, setFormData] = useState({
-    nom: "",
+    name: "",
     email: "",
-    motDePasse: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -32,16 +32,18 @@ const MyForm = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <form className="w-[400px] h-[500px] mx-auto p-4 bg-gray-100 rounded-lg shadow-md ">
-        <h2 className="mb-6 text-2xl font-semibold text-center">S'inscrire</h2>
+        <h2 className="mb-6 text-2xl font-semibold text-center">
+          Ajouter un nouvel utilisateur
+        </h2>
         <div className="mb-4">
-          <label htmlFor="nom" className="block mb-2 font-semibold">
-            Nom :
+          <label htmlFor="name" className="block mb-2 font-semibold">
+            name :
           </label>
           <input
             type="text"
-            id="nom"
-            name="nom"
-            value={formData.nom}
+            id="name"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             className="w-full px-4 py-2 bg-white border rounded-lg focus:outline-none focus:ring focus:border-blue-500"
           />
@@ -60,14 +62,14 @@ const MyForm = () => {
           />
         </div>
         <div className="mb-4">
-          <label htmlFor="motDePasse" className="block mb-2 font-semibold">
+          <label htmlFor="password" className="block mb-2 font-semibold">
             Mot de passe :
           </label>
           <input
             type="password"
-            id="motDePasse"
-            name="motDePasse"
-            value={formData.motDePasse}
+            id="password"
+            name="password"
+            value={formData.password}
             onChange={handleChange}
             className="w-full px-4 py-2 bg-white border rounded-lg focus:outline-none focus:ring focus:border-blue-500"
           />
