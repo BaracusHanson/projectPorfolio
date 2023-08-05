@@ -19,6 +19,7 @@ const MyForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(formData);
     axios
       .post("http://localhost:3000/register", formData)
       .then((res) => {
@@ -28,7 +29,7 @@ const MyForm = () => {
         console.log(err.response.data); // Affiche la réponse JSON en cas d'erreur
       });
   };
-
+  axios.defaults.withCredentials = true;
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <form className="w-[400px] h-[500px] mx-auto p-4 bg-gray-100 rounded-lg shadow-md ">

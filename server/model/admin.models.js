@@ -41,6 +41,12 @@ const AdminModel = {
   date: {
     timestamps: true,
   },
+
+
+
+
+  
 };
 
 module.exports = AdminModel;
+

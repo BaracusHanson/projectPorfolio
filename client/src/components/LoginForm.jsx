@@ -21,17 +21,24 @@ const LoginForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:3000/login", formData).then((res) => {
-      if (res.data.Status === "Success") {
-        navigate("/dashboard");
-      } else {
-        alert(res.data.Error);
-      }
-    });
-    // .catch((err) => {
-    //   console.log(err.response.data); // Affiche la réponse JSON en cas d'erreur
-    // });
-    // console.log(formData);
+    axios
+      .post("http://localhost:3000/login", formData)
+      .then((res) => {
+        localStorage.setItem("token", res.data.token);
+        if (res) {
+          // console.log(data.token);
+          // Authentification réussie, rediriger vers le dashboard
+          navigate("/dashboard");
+        } else {
+          // Afficher une alerte avec le message d'erreur
+          alert(res.data.error);
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        // Gérer les erreurs de requête ou autres erreurs ici
+        alert("Une erreur s'est produite lors de la connexion.");
+      });
   };
 
   return (

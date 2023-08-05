@@ -2,24 +2,35 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
+// import jwt_decode from "jsonwebtoken";
+
 const Dashboard = () => {
   const [auth, setAuth] = useState(false);
   const [message, setMessage] = useState("");
   const [name, setName] = useState("");
 
-  //   axios.defaults.withCredentials = true;
-
+  axios.defaults.withCredentials = true;
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
-      .get("http://localhost:3000/dashboard", { withCredentials: true })
+      .get("http://localhost:3000/dashboard", {
+        headers: { Authorization: `Bearer ${token} ` },
+      })
       .then((res) => {
-        if (res.data.Status === 200) {
+        if (res.data.token) {
+          // Authentification réussie
           setAuth(true);
-          setName(res.data.name);
+          setName(res.data.token);
+          // console.log(name);
         } else {
+          // Authentification échouée, afficher le message d'erreur
           setAuth(false);
-          setMessage(res.data.Error);
+          setMessage(res.data.error);
         }
+      })
+      .catch((err) => {
+        console.error(err);
+        // Gérer les erreurs de requête ou autres erreurs ici
       });
   }, []);
 
@@ -36,7 +47,8 @@ const Dashboard = () => {
       {auth ? (
         <div className="flex justify-between items-center p-4 bg-cyan-400 w-full">
           <h1 className="text-3xl">
-            Bienvenue <span className="font-semibold uppercase">{name}</span>
+            Bienvenue{" "}
+            <span className="font-semibold uppercase text-white">{name}</span>
           </h1>
           <button
             onClick={handleLogout}

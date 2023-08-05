@@ -35,5 +35,5 @@ connection.connect((err) => {
   //   console.log("Connexion à la base de données fermée !");
   // });
 });
-connection.connect();
+
 module.exports = connection;

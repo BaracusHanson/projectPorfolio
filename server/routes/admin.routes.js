@@ -1,21 +1,10 @@
 const express = require("express");
-const { createAdmin } = require("../controllers/admin.controller");
-const { checkLogin } = require("../controllers/adminlinLogin");
-const router = express.Router();
+const routes = express.Router();
+const adminControlleur = require('../controllers/admin.controller')
 
-router.post("/", createAdmin);
-// router.post("/", checkLogin);
+routes.post("/", adminControlleur.createAdmin);
+routes.get("/", adminControlleur.getAllAdmins);
+routes.delete("/:id", adminControlleur.deleteAdmin);
+routes.put("/:id", adminControlleur.updateAdmin);
 
-router.get("/", (req, res) => {
-  res.json({ message: res.body });
-});
-
-router.put("/:id", (req, res) => {
-  res.json({ adminId: req.params.id });
-});
-
-router.delete("/:id", (req, res) => {
-  res.json({ adminId: req.params.id });
-});
-
-module.exports = router;
+module.exports = routes;
