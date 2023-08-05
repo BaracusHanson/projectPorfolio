@@ -110,16 +110,16 @@ const loginAdmin = (req, res) => {
         return res.status(401).json({ error: "Identifiants invalides." });
       }
 
-      // Générer un token avec une durée d'expiration ,de 1 heure
+      // Générer un token avec l'ID de l'administrateur et une durée d'expiration de 1 heure
       const token = jwt.sign({ id: admin.id }, "votre_clé_secrète", {
         expiresIn: "1h",
       });
 
       res.status(200).json({ token });
-      // console.log(admin);
     });
   });
 };
+
 // admin.controller.js
 
 // Fonction pour récupérer un administrateur par ID.

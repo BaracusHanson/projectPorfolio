@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 
 const Dashboard = () => {
   const [auth, setAuth] = useState(false);
@@ -12,16 +13,18 @@ const Dashboard = () => {
     // Vérifier si l'utilisateur est authentifié en vérifiant la présence du token dans les cookies
     const token = localStorage.getItem("token");
     if (token) {
-      // L'utilisateur est authentifié, récupérer ses informations depuis le backend
+      // L'utilisateur est authentifié, récupérer ses informations depuis le back et compare aux info dans le token
+      const decodedToken = jwt_decode(token);
+      const adminId = decodedToken.id;
       axios
-        .get("http://localhost:3000/dashboard", {
+        .get(`http://localhost:3000/dashboard/${adminId}`, {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
           if (res.status === 200) {
             // Authentification réussie
             setAuth(true);
-            console.log(res.data);
+            console.log(res.data.name);
             setData(res.data); // Stocker toutes les informations de l'administrateur dans "data"
           } else {
             // Authentification échouée, afficher le message d'erreur
@@ -56,7 +59,7 @@ const Dashboard = () => {
             <h1 className="text-3xl">
               Bienvenue{" "}
               <span className="font-semibold uppercase text-white">
-                {data && data.name}{" "}
+                {data.name}{" "}
                 {/* Accéder au nom de l'administrateur s'il existe */}
               </span>
             </h1>
@@ -79,7 +82,8 @@ const Dashboard = () => {
           </div>
         )}
       </div>
-      <div className="w-full flex justify-between items-center h-full">
+      <div className="w-full flex flex-col gap-y-5 justify-center  items-center h-full">
+        <h1 className="text-5xl">Listes des utilisateurs</h1>
         <table className="table-auto border-collapse border border-gray-500">
           <thead>
             <tr>

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
 const LoginForm = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -24,11 +25,13 @@ const LoginForm = () => {
     axios
       .post("http://localhost:3000/login", formData)
       .then((res) => {
-        localStorage.setItem("token", res.data.token);
-        if (res) {
-          // console.log(data.token);
-          // Authentification réussie, rediriger vers le dashboard
-          navigate("/dashboard");
+        if (res.data.token) {
+          // Vérifiez si le token existe
+          localStorage.setItem("token", res.data.token);
+          const decodedToken = jwt_decode(res.data.token); // Utilisez res.data.token
+          const adminId = decodedToken.id;
+          // Authentification réussie, redirigez vers le tableau de bord avec l'ID de l'administrateur
+          navigate(`/dashboard/${adminId}`);
         } else {
           // Afficher une alerte avec le message d'erreur
           alert(res.data.error);
