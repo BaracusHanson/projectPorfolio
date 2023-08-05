@@ -21,11 +21,14 @@ const Dashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((res) => {
+          const adminConnected = res.data.name;
           if (res.status === 200) {
             // Authentification réussie
             setAuth(true);
-            console.log(res.data.name);
-            setData(res.data); // Stocker toutes les informations de l'administrateur dans "data"
+
+            setData(adminConnected.split("")); // Stocker toutes les informations de l'administrateur dans "data"
+            console.log(adminConnected);
+            // console.log(data);
           } else {
             // Authentification échouée, afficher le message d'erreur
             setAuth(false);
@@ -57,9 +60,9 @@ const Dashboard = () => {
         {auth ? (
           <div className="flex justify-between items-center p-4 bg-cyan-400 w-full">
             <h1 className="text-3xl">
-              Bienvenue{" "}
+              Bienvenue {""}
               <span className="font-semibold uppercase text-white">
-                {data.name}{" "}
+                {data}
                 {/* Accéder au nom de l'administrateur s'il existe */}
               </span>
             </h1>
@@ -84,32 +87,6 @@ const Dashboard = () => {
       </div>
       <div className="w-full flex flex-col gap-y-5 justify-center  items-center h-full">
         <h1 className="text-5xl">Listes des utilisateurs</h1>
-        <table className="table-auto border-collapse border border-gray-500">
-          <thead>
-            <tr>
-              <th className="border border-gray-500 px-4 py-2">ID</th>
-              <th className="border border-gray-500 px-4 py-2">Nom</th>
-              <th className="border border-gray-500 px-4 py-2">Email</th>
-              <th className="border border-gray-500 px-4 py-2">password</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map((admin) => (
-              <tr key={admin.id}>
-                <td className="border border-gray-500 px-4 py-2">{admin.id}</td>
-                <td className="border border-gray-500 px-4 py-2">
-                  {admin.name}
-                </td>
-                <td className="border border-gray-500 px-4 py-2">
-                  {admin.email}
-                </td>
-                <td className="border border-gray-500 px-4 py-2">
-                  {admin.password}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
       </div>
     </>
   );
