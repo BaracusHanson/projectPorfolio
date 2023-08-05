@@ -42,7 +42,7 @@ const getAllAdmins = (req, res) => {
         .status(500)
         .json({ error: "Erreur lors de la récupération des administrateurs." });
     } else {
-      res.json(results);
+      res.status(200).json(results);
     }
   });
 };
@@ -93,7 +93,7 @@ const loginAdmin = (req, res) => {
   const selectQuery = "SELECT * FROM admin WHERE email = ?";
 
   // Chercher l'administrateur par son email dans la base de données
-  dbConnection.query(selectQuery, [email, password], (err, results) => {
+  dbConnection.query(selectQuery, [email], (err, results) => {
     if (err) {
       return res.status(500).json({ error: "Erreur lors de la connexion." });
     }
@@ -116,14 +116,41 @@ const loginAdmin = (req, res) => {
       });
 
       res.status(200).json({ token });
-      //   console.log(res);
+      // console.log(admin);
     });
   });
 };
+// admin.controller.js
+
+// Fonction pour récupérer un administrateur par ID.
+const getAdminById = (req, res) => {
+  const adminId = req.params.id;
+  const selectQuery = "SELECT * FROM admin WHERE id = ?";
+
+  dbConnection.query(selectQuery, [adminId], (err, results) => {
+    if (err) {
+      res
+        .status(500)
+        .json({ error: "Erreur lors de la récupération de l'administrateur." });
+    } else {
+      if (results.length === 0) {
+        res.status(404).json({ error: "Administrateur non trouvé." });
+      } else {
+        const admin = results[0];
+        // Supprimez le champ "password" avant d'envoyer les informations de l'administrateur
+        delete admin.password;
+        res.status(200).json(admin);
+        console.log(admin);
+      }
+    }
+  });
+};
+
 module.exports = {
   createAdmin,
   getAllAdmins,
   updateAdmin,
   deleteAdmin,
   loginAdmin,
+  getAdminById,
 };

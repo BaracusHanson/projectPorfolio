@@ -1,6 +1,7 @@
 const express = require("express");
 const routes = express.Router();
-const adminControlleur = require('../controllers/admin.controller')
+const adminControlleur = require("../controllers/admin.controller");
+const router = require("../middlewares/auth");
 
 routes.post("/", adminControlleur.createAdmin);
 routes.get("/", adminControlleur.getAllAdmins);
